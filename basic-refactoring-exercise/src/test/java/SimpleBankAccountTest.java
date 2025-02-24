@@ -58,11 +58,12 @@ class SimpleBankAccountTest {
     @Test
     void wrongWithdraw() {
         int depositAmount = 100;
-        int withdrawerID = 2;
+        int wrongWithdrawerID = 2;
         int withdrawalAmount = 70;
         int wrongBalance = 100;
         bankAccount.deposit(accountHolder.getId(), depositAmount);
-        bankAccount.withdraw(withdrawerID, withdrawalAmount);
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(wrongWithdrawerID, withdrawalAmount));
         assertEquals(wrongBalance, bankAccount.getBalance());
     }
+
 }
