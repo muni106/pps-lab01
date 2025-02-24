@@ -18,5 +18,9 @@ public class SmartDoorLockTest {
         assertFalse(smartDoorLock.isLocked());
     }
 
-
+    @Test
+    public void lock() {
+        smartDoorLock.lock();
+        assertTrue(smartDoorLock.isLocked());
+    }
 }
