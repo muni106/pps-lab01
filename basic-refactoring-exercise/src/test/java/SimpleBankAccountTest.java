@@ -12,6 +12,7 @@ class SimpleBankAccountTest {
 
     public static final int INITIAL_BALANCE = 0;
     public static final int HOLDER_ID = 1;
+    public static final int WITHDRAW_FEE = 1;
     private AccountHolder accountHolder;
     private BankAccount bankAccount;
 
@@ -52,7 +53,7 @@ class SimpleBankAccountTest {
         int expectedBalance = 30;
         bankAccount.deposit(accountHolder.getId(), depositAmount);
         bankAccount.withdraw(accountHolder.getId(), withdrawalAmount);
-        assertEquals(expectedBalance, bankAccount.getBalance());
+        assertEquals(expectedBalance - WITHDRAW_FEE, bankAccount.getBalance());
     }
 
     @Test
@@ -60,10 +61,10 @@ class SimpleBankAccountTest {
         int depositAmount = 100;
         int wrongWithdrawerID = 2;
         int withdrawalAmount = 70;
-        int wrongBalance = 100;
+        int balanceAmount = 100;
         bankAccount.deposit(accountHolder.getId(), depositAmount);
         assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(wrongWithdrawerID, withdrawalAmount));
-        assertEquals(wrongBalance, bankAccount.getBalance());
+        assertEquals(balanceAmount, bankAccount.getBalance());
     }
 
 }
