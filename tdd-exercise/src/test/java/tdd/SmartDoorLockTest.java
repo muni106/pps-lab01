@@ -24,4 +24,17 @@ public class SmartDoorLockTest {
         smartDoorLock.lock();
         assertTrue(smartDoorLock.isLocked());
     }
+
+    @Test
+    public void wrongPinUnlock() {
+        smartDoorLock.lock();
+        smartDoorLock.unlock(2222);
+        assertTrue(smartDoorLock.isLocked());
+    }
+
+    @Test
+    public void correctPinFormat() {
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.setPin(11111));
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.unlock(11111));
+    }
 }

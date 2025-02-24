@@ -2,14 +2,26 @@ package tdd;
 
 public class SmartDoorLockImpl implements SmartDoorLock {
     private boolean locked = false;
+    private int pin;
+
+    private void isValidPin(int pin) {
+        if (pin > 9999) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     @Override
     public void setPin(int pin) {
-
+        isValidPin(pin);
+        this.pin = pin;
     }
 
     @Override
     public void unlock(int pin) {
-        locked = false;
+        isValidPin(pin);
+        if (this.pin == pin) {
+            locked = false;
+        }
     }
 
     @Override
