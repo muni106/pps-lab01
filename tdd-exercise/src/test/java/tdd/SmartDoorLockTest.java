@@ -51,5 +51,30 @@ public class SmartDoorLockTest {
         assertTrue(smartDoorLock.isBlocked());
     }
 
+    @Test
+    public void failedAndMaxAttempts() {
+        int remainingAttempts = MAX_ATTEMPTS / 2;
+        int wrongPin = 2222;
+        for (int i = 0; i < MAX_ATTEMPTS - remainingAttempts; i++) {
+            smartDoorLock.unlock(wrongPin);
+        }
+        assertEquals(remainingAttempts, smartDoorLock.getMaxAttempts());
+        assertEquals(smartDoorLock.getFailedAttempts(), MAX_ATTEMPTS - remainingAttempts);
+    }
+
+    @Test
+    public void blockAndReset() {
+        int wrongPin = 2222;
+        for (int i = 0; i <= MAX_ATTEMPTS; i++) {
+            smartDoorLock.unlock(wrongPin);
+        }
+
+
+
+    }
+
+
+
+
 
 }
