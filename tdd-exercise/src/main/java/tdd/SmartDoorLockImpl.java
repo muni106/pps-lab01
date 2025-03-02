@@ -1,8 +1,17 @@
 package tdd;
 
 public class SmartDoorLockImpl implements SmartDoorLock {
-    private boolean locked = false;
+    private boolean locked;
     private int pin;
+    private int attempts;
+    private int maxAttempts;
+
+    public SmartDoorLockImpl(int maxAttempts, int pin) {
+        locked = false;
+        attempts = 0;
+        this.maxAttempts = maxAttempts;
+        this.pin = pin;
+    }
 
     private void isValidPin(int pin) {
         if (pin > 9999) {

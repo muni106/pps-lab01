@@ -6,35 +6,46 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SmartDoorLockTest {
+    public static final int MAX_ATTEMPTS = 5;
     public SmartDoorLock smartDoorLock;
+    private int pin;
+    private int wrongPin = 11111;
+
     @BeforeEach
     void beforeEach(){
-        smartDoorLock = new SmartDoorLockImpl();
-        smartDoorLock.setPin(1111);
+        pin = 1111;
+        smartDoorLock = new SmartDoorLockImpl(MAX_ATTEMPTS, pin);
+        smartDoorLock.lock();
     }
     @Test
     public void unlock() {
-        smartDoorLock.lock();
-        smartDoorLock.unlock(1111);
+        smartDoorLock.unlock(pin);
         assertFalse(smartDoorLock.isLocked());
     }
 
     @Test
     public void lock() {
-        smartDoorLock.lock();
         assertTrue(smartDoorLock.isLocked());
     }
 
     @Test
     public void wrongPinUnlock() {
-        smartDoorLock.lock();
-        smartDoorLock.unlock(2222);
+        int wrongPin = 2222;
+        smartDoorLock.unlock(wrongPin);
         assertTrue(smartDoorLock.isLocked());
     }
 
     @Test
     public void correctPinFormat() {
-        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.setPin(11111));
-        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.unlock(11111));
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.setPin(wrongPin));
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.unlock(wrongPin));
+    }
+
+    @Test
+    public void block() {
+        for (int i = 0; i <= MAX_ATTEMPTS; i++) {
+            smartDoorLock.unlock(wrongPin);
+        }
+        assertTrue(smartDoorLock.isBlocked());
     }
 }
