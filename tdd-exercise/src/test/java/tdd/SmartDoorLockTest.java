@@ -9,7 +9,6 @@ public class SmartDoorLockTest {
     public static final int MAX_ATTEMPTS = 5;
     public SmartDoorLock smartDoorLock;
     private int pin;
-    private int wrongPin = 11111;
 
     @BeforeEach
     void beforeEach(){
@@ -37,15 +36,20 @@ public class SmartDoorLockTest {
 
     @Test
     public void correctPinFormat() {
-        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.setPin(wrongPin));
-        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.unlock(wrongPin));
+        int wronglyFormattedPin = 111111;
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.setPin(wronglyFormattedPin));
+        assertThrows(IllegalArgumentException.class, () -> smartDoorLock.unlock(wronglyFormattedPin));
     }
 
     @Test
-    public void block() {
+    public void blockDoor() {
+        int wrongPin = 2222;
+        assertFalse(smartDoorLock.isBlocked());
         for (int i = 0; i <= MAX_ATTEMPTS; i++) {
             smartDoorLock.unlock(wrongPin);
         }
         assertTrue(smartDoorLock.isBlocked());
     }
+
+
 }

@@ -30,6 +30,8 @@ public class SmartDoorLockImpl implements SmartDoorLock {
         isValidPin(pin);
         if (this.pin == pin) {
             locked = false;
+        } else {
+            attempts = attempts + 1;
         }
     }
 
@@ -45,7 +47,7 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     @Override
     public boolean isBlocked() {
-        return false;
+        return attempts >= maxAttempts;
     }
 
     @Override
